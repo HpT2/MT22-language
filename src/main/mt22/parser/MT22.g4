@@ -38,7 +38,32 @@ ARRAY		: 'array' ;
 //Operators
 ADDOP		: '+' ;
 SUBOP		: '-' ;
-MULOP		: '*'
+MULOP		: '*' ;
+DIVOP		: '/' ;
+MODULO		: '%' ;
+LOGICNOT	: '!' ;
+AND			: '&&';
+OR 			: '||';
+EQ			: '==';
+NOTEQ		: '!=';
+LESS		: '<' ;
+LESSOREQ	: '<=';
+MORE_		: '>' ;
+MOREOREQ	: '>=';
+DBLCOL		: '::';
+
+//Seperators
+LP			: '(' ;
+RP			: ')' ;
+LSB			: '[' ;
+RSB			: ']' ;
+DOT			: '.' ;
+COMMA		: ',' ;
+SEMI		: ';' ;
+COLON		: ':' ;
+LCB			: '{' ;
+RCB			: '}' ;
+ASSIGN		: '=' ;
 
 COMMENT 	: '/*' .*? '*/' -> skip ;
 LINE_COMMENT: '//'  (~[\r\n])* -> skip	;

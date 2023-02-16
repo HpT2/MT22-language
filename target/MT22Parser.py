@@ -11,7 +11,7 @@ else:
 
 def serializedATN():
     with StringIO() as buf:
-        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\36")
+        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\38")
         buf.write("\7\4\2\t\2\3\2\3\2\3\2\2\2\3\2\2\2\2\5\2\4\3\2\2\2\4\5")
         buf.write("\7\2\2\3\5\3\3\2\2\2\2")
         return buf.getvalue()
@@ -31,13 +31,21 @@ class MT22Parser ( Parser ):
                      "'else'", "'false'", "'float'", "'for'", "'function'", 
                      "'if'", "'integer'", "'return'", "'string'", "'true'", 
                      "'while'", "'void'", "'out'", "'continue'", "'of'", 
-                     "'inherit'", "'array'" ]
+                     "'inherit'", "'array'", "'+'", "'-'", "'*'", "'/'", 
+                     "'%'", "'!'", "'&&'", "'||'", "'=='", "'!='", "'<'", 
+                     "'<='", "'>'", "'>='", "'::'", "'('", "')'", "'['", 
+                     "']'", "'.'", "','", "';'", "':'", "'{'", "'}'", "'='" ]
 
     symbolicNames = [ "<INVALID>", "AUTO", "BREAK", "BOOLEAN", "DO", "ELSE", 
                       "FALSE", "FLOAT", "FOR", "FUNCTION", "IF", "INTEGER", 
                       "RETURN", "STRING", "TRUE", "WHILE", "VOID", "OUT", 
-                      "CONTINUE", "OF", "INHERIT", "ARRAY", "COMMENT", "LINE_COMMENT", 
-                      "ID", "WS", "ERROR_CHAR", "UNCLOSE_STRING", "ILLEGAL_ESCAPE" ]
+                      "CONTINUE", "OF", "INHERIT", "ARRAY", "ADDOP", "SUBOP", 
+                      "MULOP", "DIVOP", "MODULO", "LOGICNOT", "AND", "OR", 
+                      "EQ", "NOTEQ", "LESS", "LESSOREQ", "MORE_", "MOREOREQ", 
+                      "DBLCOL", "LP", "RP", "LSB", "RSB", "DOT", "COMMA", 
+                      "SEMI", "COLON", "LCB", "RCB", "ASSIGN", "COMMENT", 
+                      "LINE_COMMENT", "ID", "WS", "ERROR_CHAR", "UNCLOSE_STRING", 
+                      "ILLEGAL_ESCAPE" ]
 
     RULE_program = 0
 
@@ -65,13 +73,39 @@ class MT22Parser ( Parser ):
     OF=19
     INHERIT=20
     ARRAY=21
-    COMMENT=22
-    LINE_COMMENT=23
-    ID=24
-    WS=25
-    ERROR_CHAR=26
-    UNCLOSE_STRING=27
-    ILLEGAL_ESCAPE=28
+    ADDOP=22
+    SUBOP=23
+    MULOP=24
+    DIVOP=25
+    MODULO=26
+    LOGICNOT=27
+    AND=28
+    OR=29
+    EQ=30
+    NOTEQ=31
+    LESS=32
+    LESSOREQ=33
+    MORE_=34
+    MOREOREQ=35
+    DBLCOL=36
+    LP=37
+    RP=38
+    LSB=39
+    RSB=40
+    DOT=41
+    COMMA=42
+    SEMI=43
+    COLON=44
+    LCB=45
+    RCB=46
+    ASSIGN=47
+    COMMENT=48
+    LINE_COMMENT=49
+    ID=50
+    WS=51
+    ERROR_CHAR=52
+    UNCLOSE_STRING=53
+    ILLEGAL_ESCAPE=54
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
