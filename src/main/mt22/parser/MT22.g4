@@ -12,7 +12,7 @@ options{
 program:  stmtlist  EOF ;
 
 stmtlist		: stmt stmtlist | stmt ;
-stmt			: declaration | assignment | return_stmt | call_stmt | if_stmt | for_stmt | while_stmt;
+stmt			: declaration | ( assignment | return_stmt | call_stmt ) SEMI | if_stmt | for_stmt | while_stmt;
 
 declaration		: var_declare | func_declare | array_var_decl ;
 
@@ -74,16 +74,14 @@ param_list		: param COMMA param_list | param ;
 func_declare	: ID COLON FUNCTION function_type LP ( param_list | ) RP (INHERIT ID)? LCB body RCB;
 body			: stmtlist |  ;
 
-assignment		: ID ASSIGN expr SEMI;
-return_stmt		: RETURN expr SEMI;
-call_stmt		: ID LP argument RP (SEMI | );
+assignment		: ID ASSIGN expr;
+return_stmt		: RETURN expr ;
+call_stmt		: ID LP argument RP ;
 argument		: ID COMMA argument | expr COMMA argument | ID | expr | ;
 if_stmt			: IF LP boolexpr RP ( loop_if_body ) ( ELSE loop_if_body | );
 for_stmt		: 'for_stmt' ;
 while_stmt		: 'while_stmt' ;
-loop_if_body	: one_stmt | many_stmt ;
-one_stmt		: stmt | LCB stmt RCB ;
-many_stmt 		: LCB stmtlist RCB ; 
+loop_if_body	: stmt | LCB stmtlist RCB ;
 
 //Num Operators
 numop		: ADDOP | SUBOP | MULOP | DIVOP | MODULO | EQ | NOTEQ | MORE_ | MOREOREQ | LESS | LESSOREQ  ;

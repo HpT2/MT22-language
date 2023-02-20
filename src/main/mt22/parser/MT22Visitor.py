@@ -174,16 +174,6 @@ class MT22Visitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MT22Parser#one_stmt.
-    def visitOne_stmt(self, ctx:MT22Parser.One_stmtContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by MT22Parser#many_stmt.
-    def visitMany_stmt(self, ctx:MT22Parser.Many_stmtContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by MT22Parser#numop.
     def visitNumop(self, ctx:MT22Parser.NumopContext):
         return self.visitChildren(ctx)

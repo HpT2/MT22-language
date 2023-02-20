@@ -1,1 +1,18 @@
-x: integer = 0;
+x: integer = 65;
+        fact: function integer (n: integer) {
+            a = 1 ;
+            x: integer = 1 , 2;
+            if (n == 0) {return 1;return 2;}
+            else return n * fact(n - 1);
+            for_stmt 
+            while_stmt
+            return 2;
+        }
+        inc: function void(out n: integer, delta: integer) {
+            n = n + delta;
+        }
+        main: function void() {
+            delta: integer = fact(3);
+            inc(x, delta);
+            printInteger(x);
+        }

@@ -7,9 +7,9 @@ class ParserSuite(unittest.TestCase):
         """Simple program: int main() {} """
         input = 	"""x: integer = 65;
         fact: function integer (n: integer) {
-            a = a + 2;
-            x: integer = 65;
-            if (n == 0) return 1;
+            a = 1 ;
+            x: integer = 1;
+            if (n == 0) {return 1;return 2;}
             else return n * fact(n - 1);
             for_stmt 
             while_stmt
