@@ -12,7 +12,8 @@ options{
 program:  stmtlist  EOF ;
 
 stmtlist		: stmt stmtlist | stmt ;
-stmt			: declaration | ( assignment | return_stmt | call_stmt ) SEMI | if_stmt | for_stmt | while_stmt;
+stmt			: declaration | ( assignment | return_stmt | call_stmt | do_while_stmt ) SEMI 
+				| if_stmt | for_stmt | while_stmt;
 
 declaration		: var_declare | func_declare | array_var_decl ;
 
@@ -31,7 +32,7 @@ val				: INT_TYPE | FLOAT_TYPE | STRING_TYPE ;
 */
 
 //Bool expr
-boolexpr 	: boolexpr ( LOGICNOT | AND | OR | EQ | NOTEQ ) boolexpr | value;
+boolexpr 	: boolexpr ( LOGICNOT | AND | OR | EQ | NOTEQ | MORE_ | MOREOREQ | LESS | LESSOREQ ) boolexpr | value;
 value		: TRUE | FALSE | ID | STRING_TYPE | INT_TYPE | FLOAT_TYPE ;
 
 //Integer expr
@@ -78,13 +79,17 @@ assignment		: ID ASSIGN expr;
 return_stmt		: RETURN expr ;
 call_stmt		: ID LP argument RP ;
 argument		: ID COMMA argument | expr COMMA argument | ID | expr | ;
-if_stmt			: IF LP boolexpr RP ( loop_if_body ) ( ELSE loop_if_body | );
-for_stmt		: 'for_stmt' ;
-while_stmt		: 'while_stmt' ;
-loop_if_body	: stmt | LCB stmtlist RCB ;
+if_stmt			: IF LP boolexpr RP ( if_body ) ( ELSE if_body | );
+for_stmt		: FOR LP ID ASSIGN integerexpr COMMA boolexpr COMMA integerexpr RP loop_body ;
+while_stmt		: WHILE LP boolexpr RP loop_body  ;
+do_while_stmt	: DO loop_body WHILE LP boolexpr RP;
+if_body			: stmt | LCB stmtlist RCB ;
+loop_body 		: stmt | LCB loop RCB ;
+loop			: stmt loop | BREAK SEMI loop | CONTINUE SEMI loop | ;
+
 
 //Num Operators
-numop		: ADDOP | SUBOP | MULOP | DIVOP | MODULO | EQ | NOTEQ | MORE_ | MOREOREQ | LESS | LESSOREQ  ;
+numop		: ADDOP | SUBOP | MULOP | DIVOP | MODULO   ;
 
 //Keywords
 AUTO		: 'auto'  ;
@@ -108,6 +113,7 @@ CONTINUE	: 'continue' ;
 OF 			: 'of' ;
 INHERIT		: 'inherit' ;
 ARRAY		: 'array' ;
+
 
 //Operators
 ADDOP		: '+' ;
@@ -143,9 +149,7 @@ ASSIGN		: '=' ;
 COMMENT 	: '/*' .*? '*/' -> skip ;
 LINE_COMMENT: '//'  (~[\r\n])* -> skip	;
 
-ILLEGAL_ESCAPE		: ('"' ('\\n' | EOF ) .*?  '"'
-					| '"' .*? ('\\n' | EOF) '"'
-					| '"' ('\\n' | EOF) .*? ('\\n' | EOF) ) {raise IllegalEscape(self.text)};
+
 
 ID					: [A-Za-z_][A-Za-z0-9_]* ;
 INT_TYPE			: INTPART {self.text = self.text.replace('_','')} ;
@@ -153,7 +157,7 @@ FLOAT_TYPE			: INTPART DECIMAL? EXPONENT? {self.text = self.text.replace('_','')
 fragment INTPART 	: '0' | [+-]? [1-9] ('_'? [0-9]+)*  ;
 fragment DECIMAL	: '.' [0-9]+ ;
 fragment EXPONENT	: [eE] [-+]? [0-9]+ ;
-STRING_TYPE			: '"' (~["\\'] | '\\t' | '\\r' | '\\n' | '\\b' | '\\f' | QUOTE | DBLQUOTE | BACKSLASH)* '"' {self.text=self.text[1:-1]};
+STRING_TYPE			: '"' (~["\\'\n] | '\\t' | '\\r' | '\\n' | '\\b' | '\\f' | QUOTE | DBLQUOTE | BACKSLASH)* ~[\n]'"' {self.text=self.text[1:-1]};
 fragment QUOTE 		: '\\''\u0027' ;
 fragment DBLQUOTE 	: '\\''"' ;
 fragment BACKSLASH 	: '\\''\\' ;
@@ -162,5 +166,7 @@ fragment BACKSLASH 	: '\\''\\' ;
 WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
 
 ERROR_CHAR: .  {raise ErrorToken(self.text)} ;
-UNCLOSE_STRING: '"' (~["])* {raise UncloseString(self.text)};
 
+UNCLOSE_STRING: '"' (~["\n])* {raise UncloseString(self.text)};	
+
+ILLEGAL_ESCAPE		: '"'.*? ( '\n' | EOF ) .*? '"' {raise IllegalEscape(self.text)};

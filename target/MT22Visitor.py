@@ -169,18 +169,23 @@ class MT22Visitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MT22Parser#loop_if_body.
-    def visitLoop_if_body(self, ctx:MT22Parser.Loop_if_bodyContext):
+    # Visit a parse tree produced by MT22Parser#do_while_stmt.
+    def visitDo_while_stmt(self, ctx:MT22Parser.Do_while_stmtContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MT22Parser#one_stmt.
-    def visitOne_stmt(self, ctx:MT22Parser.One_stmtContext):
+    # Visit a parse tree produced by MT22Parser#if_body.
+    def visitIf_body(self, ctx:MT22Parser.If_bodyContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MT22Parser#many_stmt.
-    def visitMany_stmt(self, ctx:MT22Parser.Many_stmtContext):
+    # Visit a parse tree produced by MT22Parser#loop_body.
+    def visitLoop_body(self, ctx:MT22Parser.Loop_bodyContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#loop.
+    def visitLoop(self, ctx:MT22Parser.LoopContext):
         return self.visitChildren(ctx)
 
 

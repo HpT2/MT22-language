@@ -7,12 +7,20 @@ class ParserSuite(unittest.TestCase):
         """Simple program: int main() {} """
         input = 	"""x: integer = 65;
         fact: function integer (n: integer) {
-            a = 1 ;
+            a = "\\n as" ;
+            foo(2 + x, 4.0 / y);
+            goo();
             x: integer = 1;
             if (n == 0) {return 1;return 2;}
             else return n * fact(n - 1);
-            for_stmt 
-            while_stmt
+            do{
+                writeLn(i);
+                a = 2;
+                continue;
+                for ( i = 1 , i < 10 , i + 1){
+                    while(true){return 2;}
+                }
+            }while(true);
             return 2;
         }
         inc: function void(out n: integer, delta: integer) {
