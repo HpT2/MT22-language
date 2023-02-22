@@ -11,38 +11,46 @@ options{
 
 program:  stmtlist  EOF ;
 
-stmtlist		: stmt stmtlist | stmt | ;
-stmt			: declaration | block_stmt | ( assignment | return_stmt | call_stmt | do_while_stmt ) SEMI 
-				| if_stmt | for_stmt | while_stmt;
+stmtlist			: stmt stmtlist | stmt | ;
+stmt				: declaration | block_stmt | ( assignment | return_stmt | call_stmt | do_while_stmt ) SEMI 
+					| if_stmt | for_stmt | while_stmt;
 
-declaration		: var_declare | func_declare | array_var_decl ;
+declaration			: var_declare | func_declare | array_var_decl ;
 
-expr 			: numexpr | stringexpr | boolexpr | call_stmt | indexop;
-numexpr			: numexpr numop numexpr | integerexpr | floatexpr | call_stmt;
-exprlist		: expr COMMA exprlist | expr ;
+expr 				: numexpr1 | stringexpr | bool_res_expr1 | call_stmt | indexop;
+bool_res_expr1		: boolexpr1 | bool_res_expr2 ;
+bool_res_expr2		: relational_expr ; 
+exprlist			: expr COMMA exprlist | expr ;
 
-/*
-expr1			: 
-*/
+//num expression
+numexpr1			: numexpr1 ADDOP numexpr2 | numexpr1 SUBOP numexpr2 | numexpr2; 
+numexpr2			: numexpr2 MULOP numexpr3 | numexpr2 DIVOP numexpr3 | numexpr2 MODULO numexpr3 | numexpr3 ;
+numexpr3			: sign_negation  | numexpr ;
+numexpr 			: INT_TYPE | FLOAT_TYPE | call_stmt | ID |  LP numexpr1 RP ;
+
+//Negation
+sign_negation		: '-'(INT_TYPE | FLOAT_TYPE | LP numexpr1 RP);
 
 indexop 			: ID LSB indexlist RSB ;
-indexlist			: integerexpr COMMA indexlist | indexop COMMA indexlist | indexop | integerexpr;
+indexlist			: numexpr1 COMMA indexlist | indexop COMMA indexlist | indexop | numexpr1;
 
 /*
-indexed_array 	: LCB exprlist RCB ;
-vallist			: val COMMA 
-val				: INT_TYPE | FLOAT_TYPE | STRING_TYPE ;
+indexed_array 		: LCB exprlist RCB ;
+vallist				: val COMMA 
+val					: INT_TYPE | FLOAT_TYPE | STRING_TYPE ;
 */
 
-//Bool expr
-boolexpr 			: boolexpr ( LOGICNOT | AND | OR | EQ | NOTEQ | MORE_ | MOREOREQ | LESS | LESSOREQ ) boolexpr | value;
-value				: TRUE | FALSE | ID | STRING_TYPE | INT_TYPE | FLOAT_TYPE ;
+//Bool expression
+boolexpr1 			: boolexpr1 AND boolexpr2 | boolexpr1 OR boolexpr2 | boolexpr2 ;
+boolexpr2			: LOGICNOT boolexpr2 | boolval | relational_expr;
 
-//Integer expr
-integerexpr	: integerexpr numop integerexpr | INT_TYPE | ID ;
+//Relational expression
+relational_expr		: int_bool_rel | int_float_rel ;
+int_bool_rel		: int_bool_rel EQ int_bool_rel | int_bool_rel NOTEQ int_bool_rel | boolval | INT_TYPE ;
+int_float_rel		: int_float_rel (LESS | MORE_ | LESSOREQ | MOREOREQ ) int_float_rel | INT_TYPE | FLOAT_TYPE |ID ;
 
-//Float expr
-floatexpr 	: floatexpr numop floatexpr | FLOAT_TYPE | ID ;
+//Bool value
+boolval				: TRUE | FALSE | LP boolexpr1 RP | ID | LP relational_expr RP ;
 
 //String expr
 stringexpr	: stringexpr DBLCOL stringexpr | STRING_TYPE | ID ;
@@ -67,7 +75,7 @@ if self._ctx.getText().__contains__('='):
 array_var_decl	: id_list COLON ARRAY (ASSIGN arraylist)? SEMI ;
 arraylist		: ARRAY dimension OF type_ COMMA arraylist | ARRAY dimension OF type_;
 dimension		: LSB intlist RSB ;
-intlist			: integerexpr COMMA intlist | integerexpr ;
+intlist			: numexpr1 COMMA intlist | numexpr1 ;
 id_list			: ID COMMA id_list | ID ;
 
 
@@ -82,17 +90,15 @@ assignment		: ID ASSIGN expr;
 return_stmt		: RETURN expr ;
 call_stmt		: ID LP argument RP ;
 argument		: ID COMMA argument | expr COMMA argument | ID | expr | ;
-if_stmt			: IF LP boolexpr RP ( if_body ) ( ELSE if_body | );
-for_stmt		: FOR LP ID ASSIGN integerexpr COMMA boolexpr COMMA integerexpr RP loop_body ;
-while_stmt		: WHILE LP boolexpr RP loop_body  ;
-do_while_stmt	: DO loop_body WHILE LP boolexpr RP;
+if_stmt			: IF LP boolexpr1 RP ( if_body ) ( ELSE if_body | );
+for_stmt		: FOR LP ID ASSIGN numexpr1 COMMA boolexpr1 COMMA numexpr1 RP loop_body ;
+while_stmt		: WHILE LP boolexpr1 RP loop_body  ;
+do_while_stmt	: DO loop_body WHILE LP boolexpr1 RP;
 if_body			: stmt | LCB stmtlist RCB ;
 loop_body 		: stmt | LCB loop RCB ;
 loop			: stmt loop | BREAK SEMI loop | CONTINUE SEMI loop | ;
 block_stmt		: LCB stmtlist RCB ;
 
-//Num Operators
-numop		: ADDOP | SUBOP | MULOP | DIVOP | MODULO   ;
 
 //Keywords
 AUTO		: 'auto'  ;

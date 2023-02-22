@@ -9,18 +9,18 @@ class ParserSuite(unittest.TestCase):
         fact: function integer (n: integer) {
             a = "\\n as" ;
             foo(2 + x, 4.0 / y);
-            a= a-1;
+            a=  true || !!(true == false) ;
             goo();
             a = a[b[1,2],2,c[5,0]] ;
             x: integer = 1;
-            if (n == 0) {return 1;return 2;}
+            if (true) {return 1;return 2;}
             else return n * fact(n - 1);
             while(b){}
             do{
                 writeLn(i);
                 a = 2;
                 continue;
-                for ( i = 1 , i < 10 , i + 1){
+                for ( i = 1 , true , i + 1){
                     while(true){return 2;}
                 }
             }while(true);

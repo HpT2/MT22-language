@@ -34,8 +34,13 @@ class MT22Visitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MT22Parser#numexpr.
-    def visitNumexpr(self, ctx:MT22Parser.NumexprContext):
+    # Visit a parse tree produced by MT22Parser#bool_res_expr1.
+    def visitBool_res_expr1(self, ctx:MT22Parser.Bool_res_expr1Context):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#bool_res_expr2.
+    def visitBool_res_expr2(self, ctx:MT22Parser.Bool_res_expr2Context):
         return self.visitChildren(ctx)
 
 
@@ -44,33 +49,68 @@ class MT22Visitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MT22Parser#access.
-    def visitAccess(self, ctx:MT22Parser.AccessContext):
+    # Visit a parse tree produced by MT22Parser#numexpr1.
+    def visitNumexpr1(self, ctx:MT22Parser.Numexpr1Context):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MT22Parser#accesslist.
-    def visitAccesslist(self, ctx:MT22Parser.AccesslistContext):
+    # Visit a parse tree produced by MT22Parser#numexpr2.
+    def visitNumexpr2(self, ctx:MT22Parser.Numexpr2Context):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MT22Parser#boolexpr.
-    def visitBoolexpr(self, ctx:MT22Parser.BoolexprContext):
+    # Visit a parse tree produced by MT22Parser#numexpr3.
+    def visitNumexpr3(self, ctx:MT22Parser.Numexpr3Context):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MT22Parser#value.
-    def visitValue(self, ctx:MT22Parser.ValueContext):
+    # Visit a parse tree produced by MT22Parser#numexpr.
+    def visitNumexpr(self, ctx:MT22Parser.NumexprContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MT22Parser#integerexpr.
-    def visitIntegerexpr(self, ctx:MT22Parser.IntegerexprContext):
+    # Visit a parse tree produced by MT22Parser#sign_negation.
+    def visitSign_negation(self, ctx:MT22Parser.Sign_negationContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MT22Parser#floatexpr.
-    def visitFloatexpr(self, ctx:MT22Parser.FloatexprContext):
+    # Visit a parse tree produced by MT22Parser#indexop.
+    def visitIndexop(self, ctx:MT22Parser.IndexopContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#indexlist.
+    def visitIndexlist(self, ctx:MT22Parser.IndexlistContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#boolexpr1.
+    def visitBoolexpr1(self, ctx:MT22Parser.Boolexpr1Context):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#boolexpr2.
+    def visitBoolexpr2(self, ctx:MT22Parser.Boolexpr2Context):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#relational_expr.
+    def visitRelational_expr(self, ctx:MT22Parser.Relational_exprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#int_bool_rel.
+    def visitInt_bool_rel(self, ctx:MT22Parser.Int_bool_relContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#int_float_rel.
+    def visitInt_float_rel(self, ctx:MT22Parser.Int_float_relContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#boolval.
+    def visitBoolval(self, ctx:MT22Parser.BoolvalContext):
         return self.visitChildren(ctx)
 
 
@@ -196,11 +236,6 @@ class MT22Visitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by MT22Parser#block_stmt.
     def visitBlock_stmt(self, ctx:MT22Parser.Block_stmtContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by MT22Parser#numop.
-    def visitNumop(self, ctx:MT22Parser.NumopContext):
         return self.visitChildren(ctx)
 
 
