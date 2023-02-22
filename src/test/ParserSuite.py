@@ -9,10 +9,13 @@ class ParserSuite(unittest.TestCase):
         fact: function integer (n: integer) {
             a = "\\n as" ;
             foo(2 + x, 4.0 / y);
+            a= a-1;
             goo();
+            a = a[b[1,2],2,c[5,0]] ;
             x: integer = 1;
             if (n == 0) {return 1;return 2;}
             else return n * fact(n - 1);
+            while(b){}
             do{
                 writeLn(i);
                 a = 2;
@@ -22,6 +25,10 @@ class ParserSuite(unittest.TestCase):
                 }
             }while(true);
             return 2;
+            {
+                print(123);
+                a : integer = 1;
+            }
         }
         inc: function void(out n: integer, delta: integer) {
             n = n + delta;

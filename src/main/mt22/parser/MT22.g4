@@ -11,19 +11,22 @@ options{
 
 program:  stmtlist  EOF ;
 
-stmtlist		: stmt stmtlist | stmt ;
-stmt			: declaration | ( assignment | return_stmt | call_stmt | do_while_stmt ) SEMI 
+stmtlist		: stmt stmtlist | stmt | ;
+stmt			: declaration | block_stmt | ( assignment | return_stmt | call_stmt | do_while_stmt ) SEMI 
 				| if_stmt | for_stmt | while_stmt;
 
 declaration		: var_declare | func_declare | array_var_decl ;
 
-expr 			: numexpr | stringexpr | boolexpr | call_stmt;
+expr 			: numexpr | stringexpr | boolexpr | call_stmt | indexop;
 numexpr			: numexpr numop numexpr | integerexpr | floatexpr | call_stmt;
 exprlist		: expr COMMA exprlist | expr ;
 
+/*
+expr1			: 
+*/
 
-
-access 	: ID LSB intlist RSB ;
+indexop 			: ID LSB indexlist RSB ;
+indexlist			: integerexpr COMMA indexlist | indexop COMMA indexlist | indexop | integerexpr;
 
 /*
 indexed_array 	: LCB exprlist RCB ;
@@ -32,8 +35,8 @@ val				: INT_TYPE | FLOAT_TYPE | STRING_TYPE ;
 */
 
 //Bool expr
-boolexpr 	: boolexpr ( LOGICNOT | AND | OR | EQ | NOTEQ | MORE_ | MOREOREQ | LESS | LESSOREQ ) boolexpr | value;
-value		: TRUE | FALSE | ID | STRING_TYPE | INT_TYPE | FLOAT_TYPE ;
+boolexpr 			: boolexpr ( LOGICNOT | AND | OR | EQ | NOTEQ | MORE_ | MOREOREQ | LESS | LESSOREQ ) boolexpr | value;
+value				: TRUE | FALSE | ID | STRING_TYPE | INT_TYPE | FLOAT_TYPE ;
 
 //Integer expr
 integerexpr	: integerexpr numop integerexpr | INT_TYPE | ID ;
@@ -64,7 +67,7 @@ if self._ctx.getText().__contains__('='):
 array_var_decl	: id_list COLON ARRAY (ASSIGN arraylist)? SEMI ;
 arraylist		: ARRAY dimension OF type_ COMMA arraylist | ARRAY dimension OF type_;
 dimension		: LSB intlist RSB ;
-intlist			: INT_TYPE COMMA intlist | INT_TYPE ;
+intlist			: integerexpr COMMA intlist | integerexpr ;
 id_list			: ID COMMA id_list | ID ;
 
 
@@ -86,7 +89,7 @@ do_while_stmt	: DO loop_body WHILE LP boolexpr RP;
 if_body			: stmt | LCB stmtlist RCB ;
 loop_body 		: stmt | LCB loop RCB ;
 loop			: stmt loop | BREAK SEMI loop | CONTINUE SEMI loop | ;
-
+block_stmt		: LCB stmtlist RCB ;
 
 //Num Operators
 numop		: ADDOP | SUBOP | MULOP | DIVOP | MODULO   ;
@@ -154,7 +157,7 @@ LINE_COMMENT: '//'  (~[\r\n])* -> skip	;
 ID					: [A-Za-z_][A-Za-z0-9_]* ;
 INT_TYPE			: INTPART {self.text = self.text.replace('_','')} ;
 FLOAT_TYPE			: INTPART DECIMAL? EXPONENT? {self.text = self.text.replace('_','')} ;
-fragment INTPART 	: '0' | [+-]? [1-9] ('_'? [0-9]+)*  ;
+fragment INTPART 	: '0' | [1-9] ('_'? [0-9]+)*  ;
 fragment DECIMAL	: '.' [0-9]+ ;
 fragment EXPONENT	: [eE] [-+]? [0-9]+ ;
 STRING_TYPE			: '"' (~["\\'\n] | '\\t' | '\\r' | '\\n' | '\\b' | '\\f' | QUOTE | DBLQUOTE | BACKSLASH)* ~[\n]'"' {self.text=self.text[1:-1]};
