@@ -9,7 +9,7 @@ class ParserSuite(unittest.TestCase):
         fact: function integer (n: integer) {
             a = "\\n as" ;
             foo(2 + x, 4.0 / y);
-            a=  true || !!(true == false) ;
+            a=  3+2 > 4;
             goo();
             a = a[b[1,2],2,c[5,0]] ;
             x: integer = 1;

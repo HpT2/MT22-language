@@ -9,15 +9,16 @@ options{
 	language=Python3;
 }
 
-program:  stmtlist  EOF ;
+program:  stmtlist EOF ;
 
 stmtlist			: stmt stmtlist | stmt | ;
-stmt				: declaration | block_stmt | ( assignment | return_stmt | call_stmt | do_while_stmt ) SEMI 
+stmt				: func_declare | var_declare | array_var_decl | block_stmt 
+					| ( assignment | return_stmt | call_stmt | do_while_stmt ) SEMI 
 					| if_stmt | for_stmt | while_stmt;
 
 declaration			: var_declare | func_declare | array_var_decl ;
 
-expr 				: numexpr1 | stringexpr | bool_res_expr1 | call_stmt | indexop;
+expr 				: numexpr1 | stringexpr | bool_res_expr1 | call_stmt ;
 bool_res_expr1		: boolexpr1 | bool_res_expr2 ;
 bool_res_expr2		: relational_expr ; 
 exprlist			: expr COMMA exprlist | expr ;
@@ -25,7 +26,7 @@ exprlist			: expr COMMA exprlist | expr ;
 //num expression
 numexpr1			: numexpr1 ADDOP numexpr2 | numexpr1 SUBOP numexpr2 | numexpr2; 
 numexpr2			: numexpr2 MULOP numexpr3 | numexpr2 DIVOP numexpr3 | numexpr2 MODULO numexpr3 | numexpr3 ;
-numexpr3			: sign_negation  | numexpr ;
+numexpr3			: sign_negation  | numexpr | indexop ;
 numexpr 			: INT_TYPE | FLOAT_TYPE | call_stmt | ID |  LP numexpr1 RP ;
 
 //Negation
@@ -42,18 +43,18 @@ val					: INT_TYPE | FLOAT_TYPE | STRING_TYPE ;
 
 //Bool expression
 boolexpr1 			: boolexpr1 AND boolexpr2 | boolexpr1 OR boolexpr2 | boolexpr2 ;
-boolexpr2			: LOGICNOT boolexpr2 | boolval | relational_expr;
+boolexpr2			: LOGICNOT boolexpr2 | boolval | relational_expr | indexop ;
 
 //Relational expression
 relational_expr		: int_bool_rel | int_float_rel ;
 int_bool_rel		: int_bool_rel EQ int_bool_rel | int_bool_rel NOTEQ int_bool_rel | boolval | INT_TYPE ;
-int_float_rel		: int_float_rel (LESS | MORE_ | LESSOREQ | MOREOREQ ) int_float_rel | INT_TYPE | FLOAT_TYPE |ID ;
+int_float_rel		: int_float_rel (LESS | MORE_ | LESSOREQ | MOREOREQ ) int_float_rel | INT_TYPE | FLOAT_TYPE |ID | numexpr1;
 
 //Bool value
-boolval				: TRUE | FALSE | LP boolexpr1 RP | ID | LP relational_expr RP ;
+boolval				: TRUE | FALSE | LP boolexpr1 RP | ID | LP relational_expr RP | indexop;
 
 //String expr
-stringexpr	: stringexpr DBLCOL stringexpr | STRING_TYPE | ID ;
+stringexpr	: stringexpr DBLCOL stringexpr | STRING_TYPE | ID | indexop;
 
 //Type
 type_	: INTEGER | FLOAT | STRING | BOOLEAN ;
@@ -80,8 +81,8 @@ id_list			: ID COMMA id_list | ID ;
 
 
 //function declarations
-function_type	: type_ | VOID ;
-param			: INHERIT? OUT? ID COLON type_ ;
+function_type	: type_ | VOID | ARRAY;
+param			: INHERIT? OUT? ID COLON ( type_ | ARRAY ) ;
 param_list		: param COMMA param_list | param ;
 func_declare	: ID COLON FUNCTION function_type LP ( param_list | ) RP (INHERIT ID)? LCB body RCB;
 body			: stmtlist |  ;
@@ -90,11 +91,11 @@ assignment		: ID ASSIGN expr;
 return_stmt		: RETURN expr ;
 call_stmt		: ID LP argument RP ;
 argument		: ID COMMA argument | expr COMMA argument | ID | expr | ;
-if_stmt			: IF LP boolexpr1 RP ( if_body ) ( ELSE if_body | );
+if_stmt			: IF LP boolexpr1 RP ( stmt ) ( ELSE stmt | );
 for_stmt		: FOR LP ID ASSIGN numexpr1 COMMA boolexpr1 COMMA numexpr1 RP loop_body ;
 while_stmt		: WHILE LP boolexpr1 RP loop_body  ;
 do_while_stmt	: DO loop_body WHILE LP boolexpr1 RP;
-if_body			: stmt | LCB stmtlist RCB ;
+if_body			: stmt ;
 loop_body 		: stmt | LCB loop RCB ;
 loop			: stmt loop | BREAK SEMI loop | CONTINUE SEMI loop | ;
 block_stmt		: LCB stmtlist RCB ;
