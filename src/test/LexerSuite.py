@@ -6,8 +6,9 @@ class LexerSuite(unittest.TestCase):
 
     def test_lowercase_identifier(self):
         """test identifiers"""
-        testcase = """ "aa\nsd """
-        expect =  'aasd,<EOF>'
+        testcase = """ "å" """
+        expect =  'å,<EOF>'
+        print(testcase)
         self.assertTrue(TestLexer.test(testcase, expect, 101))
 
         

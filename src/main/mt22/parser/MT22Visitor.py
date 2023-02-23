@@ -84,6 +84,11 @@ class MT22Visitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by MT22Parser#indexed_array.
+    def visitIndexed_array(self, ctx:MT22Parser.Indexed_arrayContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by MT22Parser#boolexpr1.
     def visitBoolexpr1(self, ctx:MT22Parser.Boolexpr1Context):
         return self.visitChildren(ctx)
@@ -129,13 +134,13 @@ class MT22Visitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MT22Parser#array_var_decl.
-    def visitArray_var_decl(self, ctx:MT22Parser.Array_var_declContext):
+    # Visit a parse tree produced by MT22Parser#recur.
+    def visitRecur(self, ctx:MT22Parser.RecurContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MT22Parser#arraylist.
-    def visitArraylist(self, ctx:MT22Parser.ArraylistContext):
+    # Visit a parse tree produced by MT22Parser#array_type.
+    def visitArray_type(self, ctx:MT22Parser.Array_typeContext):
         return self.visitChildren(ctx)
 
 

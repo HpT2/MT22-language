@@ -5,38 +5,11 @@ from TestUtils import TestParser
 class ParserSuite(unittest.TestCase):
     def test_simple_program(self):
         """Simple program: int main() {} """
-        input = 	"""x: integer = 65;
-        fact: function integer (n: integer) {
-            a = "\\n as" ;
-            foo(2 + x, 4.0 / y);
-            a=  3+2 > 4;
-            goo();
-            a = a[b[1,2],2,c[5,0]] ;
-            x: integer = 1;
-            if (true) {return 1;return 2;}
-            else return n * fact(n - 1);
-            while(b){}
-            do{
-                writeLn(i);
-                a = 2;
-                continue;
-                for ( i = 1 , true , i + 1){
-                    while(true){return 2;}
-                }
-            }while(true);
-            return 2;
-            {
-                print(123);
-                a : integer = 1;
+        input = 	""" fact: function array [2] of integer (n: array [-1,2,3,4,5] of integer) {
+            if (n == 0) { {a= a[2+3,b[2]];}
             }
-        }
-        inc: function void(out n: integer, delta: integer) {
-            n = n + delta;
-        }
-        main: function void() {
-            delta: integer = fact(3);
-            inc(x, delta);
-            printInteger(x);
-        }"""
+            else return n * fact(n - 1);
+            a,b: integer = {1,2},2 ;
+        } """
         expect = "successful"
         self.assertTrue(TestParser.test(input, expect, 201))
