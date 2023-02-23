@@ -13,7 +13,7 @@ program:  prog EOF ;
 
 prog				: stmtlist prog | declaration prog | stmtlist | declaration ;
 stmtlist			: stmt stmtlist | stmt  ;
-stmt				: block_stmt | var_declare |
+stmt				: block_stmt | var_declare
 					| ( assignment | return_stmt | call_stmt | do_while_stmt | BREAK | CONTINUE ) SEMI 
 					| if_stmt | for_stmt | while_stmt;
 
@@ -184,7 +184,7 @@ FLOAT_TYPE			: INTPART DECIMAL? EXPONENT? {self.text = self.text.replace('_','')
 fragment INTPART 	: '0' | [1-9] ('_'? [0-9]+)*  ;
 fragment DECIMAL	: '.' [0-9]+ ;
 fragment EXPONENT	: [eE] [-+]? [0-9]+ ;
-STRING_TYPE			:   '"''"' | '"'(~["'\n] | '\\t' | '\\r' | '\\n' | '\\b' | '\\f' | QUOTE | DBLQUOTE | BACKSLASH)* ~[\n]'"' {self.text=self.text[1:-1]};
+STRING_TYPE			:   '"''"' | '"'(~["'\n] | '\\t' | '\\r' | '\\n' | '\\b' | '\\f' | QUOTE | DBLQUOTE | BACKSLASH)*'"' {self.text=self.text[1:-1]};
 fragment QUOTE 		: '\\''\u0027' ;
 fragment DBLQUOTE 	: '\\''"' ;
 fragment BACKSLASH 	: '\\''\\' ;
@@ -196,4 +196,4 @@ ERROR_CHAR			: .  {raise ErrorToken(self.text)} ;
 
 UNCLOSE_STRING		: '"' (~["\n])* {raise UncloseString(self.text)};	
 
-ILLEGAL_ESCAPE		: '"'.*? ( '\n' | EOF ) .*?'"' {raise IllegalEscape(self.text)};
+ILLEGAL_ESCAPE		: '"'~["]*? ( '\n' | EOF ) ~["]*'"' {raise IllegalEscape(self.text)};
