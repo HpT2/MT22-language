@@ -9,11 +9,12 @@ options{
 	language=Python3;
 }
 
-program:  stmtlist EOF ;
+program:  prog EOF ;
 
-stmtlist			: stmt stmtlist | stmt | ;
-stmt				: func_declare | var_declare | block_stmt 
-					| ( assignment | return_stmt | call_stmt | do_while_stmt ) SEMI 
+prog				: stmtlist prog | declaration prog | stmtlist | declaration ;
+stmtlist			: stmt stmtlist | stmt  ;
+stmt				: block_stmt | var_declare |
+					| ( assignment | return_stmt | call_stmt | do_while_stmt | BREAK | CONTINUE ) SEMI 
 					| if_stmt | for_stmt | while_stmt;
 
 declaration			: var_declare | func_declare ;
@@ -72,24 +73,26 @@ id_list				: ID COMMA id_list | ID ;
 function_type		: type_ | VOID ;
 param				: INHERIT? OUT? ID COLON ( type_ | ARRAY ) ;
 param_list			: param COMMA param_list | param ;
-func_declare		: ID COLON FUNCTION function_type LP ( param_list | ) RP (INHERIT ID)? LCB body RCB;
-body				: stmtlist |  ;
+func_declare		: ID COLON FUNCTION function_type LP ( param_list | ) RP (INHERIT ID)? block_stmt;
 
 assignment			: (ID | indexop) ASSIGN expr;
-return_stmt			: RETURN expr ;
-call_stmt			: ID LP argument RP | special_func ;
+return_stmt			: RETURN ( expr | ) ;
+call_stmt			: ID LP argument RP ;
 argument			: ID COMMA argument | expr COMMA argument | ID | expr | ;
 if_stmt				: IF LP bool_res_expr1 RP ( stmt ) ( ELSE stmt | );
-for_stmt			: FOR LP ID ASSIGN numexpr1 COMMA bool_res_expr1 COMMA numexpr1 RP loop_body ;
-while_stmt			: WHILE LP bool_res_expr1 RP loop_body  ;
-do_while_stmt		: DO loop_body WHILE LP bool_res_expr1 RP;
-if_body				: stmt ;
+for_stmt			: FOR LP ID ASSIGN numexpr1 COMMA bool_res_expr1 COMMA numexpr1 stmt ;
+while_stmt			: WHILE LP bool_res_expr1 RP stmt  ;
+do_while_stmt		: DO block_stmt WHILE LP bool_res_expr1 RP;
+block_stmt			: LCB (stmtlist |) RCB ;
+
+/*
 loop_body 			: stmt | LCB loop RCB ;
 loop				: stmt loop | BREAK SEMI loop | CONTINUE SEMI loop | ;
-block_stmt			: LCB stmtlist RCB ;
 
-//Special function 
-special_func 		: readInt | printInt | readFloat | writeFloat | readBool | printBool | readStr | printStr  /*super*/ | preventDef ;
+*/
+
+/*Special function 
+special_func 		: readInt | printInt | readFloat | writeFloat | readBool | printBool | readStr | printStr  | super | preventDef ;
 readInt 			: READ_INT LP RP ;
 printInt			: PRINT_INT LP expr RP ;
 readFloat			: READ_FLOAT LP RP ;
@@ -100,9 +103,9 @@ readStr				: READ_STR LP RP ;
 printStr			: PRINT_STR LP expr RP ;
 //super				: SUPER LP exprlist RP ;
 preventDef			: PREVENT_DEF LP RP ;
+*/
 
-
-//Special function key
+/*Special function key
 READ_INT			: 'readInteger' ;
 PRINT_INT			: 'printInteger' ;
 READ_FLOAT			: 'readFloat' ;
@@ -113,6 +116,7 @@ READ_STR			: 'readString' ;
 PRINT_STR			: 'printString' ;
 //SUPER				: 'super' ;
 PREVENT_DEF			: 'preventDefault' ;
+*/
 
 //Keywords
 AUTO				: 'auto'  ;
