@@ -244,5 +244,55 @@ class MT22Visitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by MT22Parser#special_func.
+    def visitSpecial_func(self, ctx:MT22Parser.Special_funcContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#readInt.
+    def visitReadInt(self, ctx:MT22Parser.ReadIntContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#printInt.
+    def visitPrintInt(self, ctx:MT22Parser.PrintIntContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#readFloat.
+    def visitReadFloat(self, ctx:MT22Parser.ReadFloatContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#writeFloat.
+    def visitWriteFloat(self, ctx:MT22Parser.WriteFloatContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#readBool.
+    def visitReadBool(self, ctx:MT22Parser.ReadBoolContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#printBool.
+    def visitPrintBool(self, ctx:MT22Parser.PrintBoolContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#readStr.
+    def visitReadStr(self, ctx:MT22Parser.ReadStrContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#printStr.
+    def visitPrintStr(self, ctx:MT22Parser.PrintStrContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#preventDef.
+    def visitPreventDef(self, ctx:MT22Parser.PreventDefContext):
+        return self.visitChildren(ctx)
+
+
 
 del MT22Parser

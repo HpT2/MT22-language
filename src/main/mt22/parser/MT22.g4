@@ -19,8 +19,8 @@ stmt				: func_declare | var_declare | block_stmt
 declaration			: var_declare | func_declare ;
 
 expr 				: numexpr1 | stringexpr | bool_res_expr1 | call_stmt | indexed_array;
-bool_res_expr1		: boolexpr1 | bool_res_expr2 ;
-bool_res_expr2		: relational_expr ; 
+bool_res_expr1		: relational_expr  | bool_res_expr2 ;
+bool_res_expr2		: boolexpr1 ; 
 exprlist			: expr COMMA exprlist | expr ;
 
 //num expression
@@ -42,12 +42,12 @@ indexed_array 		: LCB  ( exprlist | ) RCB ;
 
 //Bool expression
 boolexpr1 			: boolexpr1 AND boolexpr2 | boolexpr1 OR boolexpr2 | boolexpr2 ;
-boolexpr2			: LOGICNOT boolexpr2 | boolval | relational_expr | indexop ;
+boolexpr2			: LOGICNOT boolexpr2 | boolval  ;
 
 //Relational expression
 relational_expr		: int_bool_rel | int_float_rel ;
-int_bool_rel		: int_bool_rel EQ int_bool_rel | int_bool_rel NOTEQ int_bool_rel | boolval | INT_TYPE ;
-int_float_rel		: int_float_rel (LESS | MORE_ | LESSOREQ | MOREOREQ ) int_float_rel | INT_TYPE | FLOAT_TYPE |ID | numexpr1;
+int_bool_rel		: int_bool_rel EQ int_bool_rel | int_bool_rel NOTEQ int_bool_rel | boolval | INT_TYPE | boolexpr1;
+int_float_rel		: int_float_rel (LESS | MORE_ | LESSOREQ | MOREOREQ ) int_float_rel | INT_TYPE | FLOAT_TYPE |ID | numexpr1 | indexop;
 
 //Bool value
 boolval				: TRUE | FALSE | LP boolexpr1 RP | ID | LP relational_expr RP | indexop;
@@ -77,19 +77,30 @@ body				: stmtlist |  ;
 
 assignment			: (ID | indexop) ASSIGN expr;
 return_stmt			: RETURN expr ;
-call_stmt			: ID LP argument RP ;
+call_stmt			: ID LP argument RP | special_func ;
 argument			: ID COMMA argument | expr COMMA argument | ID | expr | ;
-if_stmt				: IF LP boolexpr1 RP ( stmt ) ( ELSE stmt | );
-for_stmt			: FOR LP ID ASSIGN numexpr1 COMMA boolexpr1 COMMA numexpr1 RP loop_body ;
-while_stmt			: WHILE LP boolexpr1 RP loop_body  ;
-do_while_stmt		: DO loop_body WHILE LP boolexpr1 RP;
+if_stmt				: IF LP bool_res_expr1 RP ( stmt ) ( ELSE stmt | );
+for_stmt			: FOR LP ID ASSIGN numexpr1 COMMA bool_res_expr1 COMMA numexpr1 RP loop_body ;
+while_stmt			: WHILE LP bool_res_expr1 RP loop_body  ;
+do_while_stmt		: DO loop_body WHILE LP bool_res_expr1 RP;
 if_body				: stmt ;
 loop_body 			: stmt | LCB loop RCB ;
 loop				: stmt loop | BREAK SEMI loop | CONTINUE SEMI loop | ;
 block_stmt			: LCB stmtlist RCB ;
 
 //Special function 
+special_func 		: readInt | printInt | readFloat | writeFloat | readBool | printBool | readStr | printStr  /*super*/ | preventDef ;
 readInt 			: READ_INT LP RP ;
+printInt			: PRINT_INT LP expr RP ;
+readFloat			: READ_FLOAT LP RP ;
+writeFloat			: WRITE_FLOAT LP expr RP ;
+readBool			: READ_BOOL LP RP ;
+printBool			: PRINT_BOOL LP expr RP ;
+readStr				: READ_STR LP RP ;
+printStr			: PRINT_STR LP expr RP ;
+//super				: SUPER LP exprlist RP ;
+preventDef			: PREVENT_DEF LP RP ;
+
 
 //Special function key
 READ_INT			: 'readInteger' ;
@@ -100,7 +111,7 @@ READ_BOOL			: 'readBoolean' ;
 PRINT_BOOL			: 'printBoolean' ;
 READ_STR			: 'readString' ;
 PRINT_STR			: 'printString' ;
-SUPER				: 'super' ;
+//SUPER				: 'super' ;
 PREVENT_DEF			: 'preventDefault' ;
 
 //Keywords
