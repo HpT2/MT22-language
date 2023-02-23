@@ -75,7 +75,7 @@ param_list			: param COMMA param_list | param ;
 func_declare		: ID COLON FUNCTION function_type LP ( param_list | ) RP (INHERIT ID)? LCB body RCB;
 body				: stmtlist |  ;
 
-assignment			: ID ASSIGN expr;
+assignment			: (ID | indexop) ASSIGN expr;
 return_stmt			: RETURN expr ;
 call_stmt			: ID LP argument RP ;
 argument			: ID COMMA argument | expr COMMA argument | ID | expr | ;
@@ -88,6 +88,20 @@ loop_body 			: stmt | LCB loop RCB ;
 loop				: stmt loop | BREAK SEMI loop | CONTINUE SEMI loop | ;
 block_stmt			: LCB stmtlist RCB ;
 
+//Special function 
+readInt 			: READ_INT LP RP ;
+
+//Special function key
+READ_INT			: 'readInteger' ;
+PRINT_INT			: 'printInteger' ;
+READ_FLOAT			: 'readFloat' ;
+WRITE_FLOAT			: 'writeFloat' ;
+READ_BOOL			: 'readBoolean' ;
+PRINT_BOOL			: 'printBoolean' ;
+READ_STR			: 'readString' ;
+PRINT_STR			: 'printString' ;
+SUPER				: 'super' ;
+PREVENT_DEF			: 'preventDefault' ;
 
 //Keywords
 AUTO				: 'auto'  ;
@@ -167,4 +181,4 @@ ERROR_CHAR			: .  {raise ErrorToken(self.text)} ;
 
 UNCLOSE_STRING		: '"' (~["\n])* {raise UncloseString(self.text)};	
 
-ILLEGAL_ESCAPE		: '"'.*? ( '\n' | EOF ) .*? '"' {raise IllegalEscape(self.text)};
+ILLEGAL_ESCAPE		: '"'.*? ( '\n' | EOF ) .*?'"' {raise IllegalEscape(self.text)};

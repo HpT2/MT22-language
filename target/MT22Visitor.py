@@ -244,5 +244,10 @@ class MT22Visitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by MT22Parser#readInt.
+    def visitReadInt(self, ctx:MT22Parser.ReadIntContext):
+        return self.visitChildren(ctx)
+
+
 
 del MT22Parser
