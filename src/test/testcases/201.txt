@@ -1,8 +1,9 @@
 
           fact: function integer (){
               do {x =2 ;}
-              while(true);
-              a=2;
+              while(2 + (3 == 4) - 4);
+              a = 1.0e10;
+              a[foo(2)]=1;
               a: integer;
           }
 

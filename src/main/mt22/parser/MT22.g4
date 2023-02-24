@@ -1,5 +1,5 @@
 grammar MT22;
-
+//Sửa thứ tự expr theo đề 
 @lexer::header {
 #2012385
 from lexererr import *
@@ -19,42 +19,34 @@ stmt				: block_stmt | var_declare
 
 declaration			: var_declare | func_declare ;
 
-expr 				: numexpr1 | stringexpr | bool_res_expr1 | call_stmt | indexed_array;
-bool_res_expr1		: relational_expr  | bool_res_expr2 ;
-bool_res_expr2		: boolexpr1 ; 
+expr 				: expr DBLCOL expr | expr1 ;
+expr1				: expr1 (EQ | NOTEQ | LESS | MORE_ | LESSOREQ | MOREOREQ) expr1 | expr2 ;
+expr2				: expr2 (OR | AND) expr3 | expr3 ;
+expr3				: expr3 (ADDOP | SUBOP) expr4 | expr4 ;
+expr4				: expr4 (MULOP | DIVOP | MODULO) expr5 | expr5 ;
+expr5				: LOGICNOT expr5 | expr6 ;
+expr6 				: '-'expr6 | expr7 ;
+expr7 				: indexop | exprval;
+exprval				: ID | INT_TYPE | FLOAT_TYPE | STRING_TYPE | indexlist | TRUE | FALSE | call_stmt
+					| LP expr1 RP ;
 exprlist			: expr COMMA exprlist | expr ;
 
 //num expression
 numexpr1			: numexpr1 ADDOP numexpr2 | numexpr1 SUBOP numexpr2 | numexpr2; 
 numexpr2			: numexpr2 MULOP numexpr3 | numexpr2 DIVOP numexpr3 | numexpr2 MODULO numexpr3 | numexpr3 ;
-numexpr3			: sign_negation  | numexpr | indexop ;
-numexpr 			: INT_TYPE | FLOAT_TYPE | call_stmt | ID |  LP numexpr1 RP ;
+numexpr3			: '-'numexpr | numexpr | indexop ;
+numexpr 			: INT_TYPE | call_stmt | ID |  LP numexpr1 RP ;
 
-//Negation
-sign_negation		: '-'(INT_TYPE | FLOAT_TYPE | LP numexpr1 RP);
 
 indexop 			: ID LSB indexlist RSB ;
-indexlist			: numexpr1 COMMA indexlist | indexop COMMA indexlist | indexop | numexpr1;
+indexlist			: numexpr1 COMMA indexlist | indexop COMMA indexlist | call_stmt COMMA indexlist 
+					| indexop | numexpr1 | call_stmt;
 
 
 indexed_array 		: LCB  ( exprlist | ) RCB ;
 
 
 
-//Bool expression
-boolexpr1 			: boolexpr1 AND boolexpr2 | boolexpr1 OR boolexpr2 | boolexpr2 ;
-boolexpr2			: LOGICNOT boolexpr2 | boolval  ;
-
-//Relational expression
-relational_expr		: int_bool_rel | int_float_rel ;
-int_bool_rel		: int_bool_rel EQ int_bool_rel | int_bool_rel NOTEQ int_bool_rel | boolval | INT_TYPE | boolexpr1;
-int_float_rel		: int_float_rel (LESS | MORE_ | LESSOREQ | MOREOREQ ) int_float_rel | INT_TYPE | FLOAT_TYPE |ID | numexpr1 | indexop;
-
-//Bool value
-boolval				: TRUE | FALSE | LP boolexpr1 RP | ID | LP relational_expr RP | indexop;
-
-//String expr
-stringexpr			: stringexpr DBLCOL stringexpr | STRING_TYPE | ID | indexop;
 
 //Type
 type_				: INTEGER | FLOAT | STRING | BOOLEAN | AUTO | array_type;
@@ -79,17 +71,12 @@ assignment			: (ID | indexop) ASSIGN expr;
 return_stmt			: RETURN ( expr | ) ;
 call_stmt			: ID LP argument RP ;
 argument			: ID COMMA argument | expr COMMA argument | ID | expr | ;
-if_stmt				: IF LP bool_res_expr1 RP ( stmt ) ( ELSE stmt | );
-for_stmt			: FOR LP ID ASSIGN numexpr1 COMMA bool_res_expr1 COMMA numexpr1 stmt ;
-while_stmt			: WHILE LP bool_res_expr1 RP stmt  ;
-do_while_stmt		: DO block_stmt WHILE LP bool_res_expr1 RP;
+if_stmt				: IF LP expr1 RP ( stmt ) ( ELSE stmt | );
+for_stmt			: FOR LP ID ASSIGN numexpr1 COMMA expr1 COMMA numexpr1 stmt ;
+while_stmt			: WHILE LP expr1 RP stmt  ;
+do_while_stmt		: DO block_stmt WHILE LP expr1 RP;
 block_stmt			: LCB (stmtlist |) RCB ;
 
-/*
-loop_body 			: stmt | LCB loop RCB ;
-loop				: stmt loop | BREAK SEMI loop | CONTINUE SEMI loop | ;
-
-*/
 
 /*Special function 
 special_func 		: readInt | printInt | readFloat | writeFloat | readBool | printBool | readStr | printStr  | super | preventDef ;
@@ -180,9 +167,9 @@ LINE_COMMENT		: '//'  (~[\r\n])* -> skip	;
 
 ID					: [A-Za-z_][A-Za-z0-9_]* ;
 INT_TYPE			: INTPART {self.text = self.text.replace('_','')} ;
-FLOAT_TYPE			: INTPART DECIMAL? EXPONENT? {self.text = self.text.replace('_','')} ;
+FLOAT_TYPE			: ( INTPART DECIMAL? EXPONENT | INTPART DECIMAL | DECIMAL EXPONENT   ) {self.text = self.text.replace('_','')} ;
 fragment INTPART 	: '0' | [1-9] ('_'? [0-9]+)*  ;
-fragment DECIMAL	: '.' [0-9]+ ;
+fragment DECIMAL	: '.' [0-9]* ;
 fragment EXPONENT	: [eE] [-+]? [0-9]+ ;
 STRING_TYPE			:   '"''"' | '"'(~["'\n] | '\\t' | '\\r' | '\\n' | '\\b' | '\\f' | QUOTE | DBLQUOTE | BACKSLASH)*'"' {self.text=self.text[1:-1]};
 fragment QUOTE 		: '\\''\u0027' ;
