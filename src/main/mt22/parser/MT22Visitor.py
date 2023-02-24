@@ -84,33 +84,8 @@ class MT22Visitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MT22Parser#numexpr1.
-    def visitNumexpr1(self, ctx:MT22Parser.Numexpr1Context):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by MT22Parser#numexpr2.
-    def visitNumexpr2(self, ctx:MT22Parser.Numexpr2Context):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by MT22Parser#numexpr3.
-    def visitNumexpr3(self, ctx:MT22Parser.Numexpr3Context):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by MT22Parser#numexpr.
-    def visitNumexpr(self, ctx:MT22Parser.NumexprContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by MT22Parser#indexop.
     def visitIndexop(self, ctx:MT22Parser.IndexopContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by MT22Parser#indexlist.
-    def visitIndexlist(self, ctx:MT22Parser.IndexlistContext):
         return self.visitChildren(ctx)
 
 

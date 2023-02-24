@@ -27,20 +27,13 @@ expr4				: expr4 (MULOP | DIVOP | MODULO) expr5 | expr5 ;
 expr5				: LOGICNOT expr5 | expr6 ;
 expr6 				: '-'expr6 | expr7 ;
 expr7 				: indexop | exprval;
-exprval				: ID | INT_TYPE | FLOAT_TYPE | STRING_TYPE | indexlist | TRUE | FALSE | call_stmt
+exprval				: ID | INT_TYPE | FLOAT_TYPE | STRING_TYPE | TRUE | FALSE | call_stmt
 					| LP expr1 RP ;
 exprlist			: expr COMMA exprlist | expr ;
 
-//num int expression
-numexpr1			: numexpr1 ADDOP numexpr2 | numexpr1 SUBOP numexpr2 | numexpr2; 
-numexpr2			: numexpr2 MULOP numexpr3 | numexpr2 DIVOP numexpr3 | numexpr2 MODULO numexpr3 | numexpr3 ;
-numexpr3			: '-'numexpr | numexpr | indexop ;
-numexpr 			: INT_TYPE | call_stmt | ID |  LP numexpr1 RP ;
 
 
-indexop 			: ID LSB indexlist RSB ;
-indexlist			: numexpr1 COMMA indexlist | indexop COMMA indexlist | call_stmt COMMA indexlist 
-					| indexop | numexpr1 | call_stmt;
+indexop 			: ID LSB exprlist RSB ;
 
 
 indexed_array 		: LCB  ( exprlist | ) RCB ;
@@ -72,7 +65,7 @@ return_stmt			: RETURN ( expr | ) ;
 call_stmt			: ID LP argument RP ;
 argument			: ID COMMA argument | expr COMMA argument | ID | expr | ;
 if_stmt				: IF LP expr RP ( stmt ) ( ELSE stmt | );
-for_stmt			: FOR LP (ID | indexop) ASSIGN numexpr1 COMMA expr COMMA numexpr1 RP stmt ;
+for_stmt			: FOR LP (ID | indexop ) ASSIGN expr COMMA expr COMMA expr RP stmt ;
 while_stmt			: WHILE LP expr RP stmt  ;
 do_while_stmt		: DO block_stmt WHILE LP expr RP;
 block_stmt			: LCB (stmtlist |) RCB ;
