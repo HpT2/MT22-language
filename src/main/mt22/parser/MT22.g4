@@ -72,7 +72,7 @@ return_stmt			: RETURN ( expr | ) ;
 call_stmt			: ID LP argument RP ;
 argument			: ID COMMA argument | expr COMMA argument | ID | expr | ;
 if_stmt				: IF LP expr RP ( stmt ) ( ELSE stmt | );
-for_stmt			: FOR LP ID ASSIGN numexpr1 COMMA expr COMMA numexpr1 stmt ;
+for_stmt			: FOR LP (ID | indexop) ASSIGN numexpr1 COMMA expr COMMA numexpr1 RP stmt ;
 while_stmt			: WHILE LP expr RP stmt  ;
 do_while_stmt		: DO block_stmt WHILE LP expr RP;
 block_stmt			: LCB (stmtlist |) RCB ;
@@ -171,7 +171,7 @@ FLOAT_TYPE			: ( INTPART DECIMAL? EXPONENT | INTPART DECIMAL | DECIMAL EXPONENT 
 fragment INTPART 	: '0' | [1-9] ('_'? [0-9]+)*  ;
 fragment DECIMAL	: '.' [0-9]* ;
 fragment EXPONENT	: [eE] [-+]? [0-9]+ ;
-STRING_TYPE			:   '"''"' | '"'(~["'\n] | '\\t' | '\\r' | '\\n' | '\\b' | '\\f' | QUOTE | DBLQUOTE | BACKSLASH)*'"' {self.text=self.text[1:-1]};
+STRING_TYPE			:   '"''"' | '"'(~["'\n\r] | '\\t' | '\\r' | '\\n' | '\\b' | '\\f' | QUOTE | DBLQUOTE | BACKSLASH)*'"' {self.text=self.text[1:-1]};
 fragment QUOTE 		: '\\''\u0027' ;
 fragment DBLQUOTE 	: '\\''"' ;
 fragment BACKSLASH 	: '\\''\\' ;
@@ -181,6 +181,6 @@ WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
 
 ERROR_CHAR			: .  {raise ErrorToken(self.text)} ;
 
-UNCLOSE_STRING		: '"' (~["\n])* {raise UncloseString(self.text)};	
+UNCLOSE_STRING		: '"' (~["\n\r])* {raise UncloseString(self.text)};	
 
 ILLEGAL_ESCAPE		: '"'~["]*? ( '\n' | EOF ) ~["]*'"' {raise IllegalEscape(self.text)};
