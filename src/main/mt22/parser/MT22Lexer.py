@@ -8,7 +8,6 @@ else:
     from typing.io import TextIO
 
 
-#2012385
 from lexererr import *
 
 

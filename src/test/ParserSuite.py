@@ -10,7 +10,8 @@ class ParserSuite(unittest.TestCase):
               do {x =2 ;}
               while(b[3-2 + -(1234-2)]);
               a = 1.0e10;
-              a[foo(2)]=1;
+              a:array [1,1,2] of integer;
+              a[foo(2),goo()]=1;
               a: integer;
           }
 

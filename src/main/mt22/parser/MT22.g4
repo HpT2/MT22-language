@@ -1,7 +1,6 @@
 grammar MT22;
-//Sửa thứ tự expr theo đề 
+//2012385
 @lexer::header {
-#2012385
 from lexererr import *
 }
 
@@ -58,7 +57,7 @@ recur				: COMMA ID recur expr COMMA | COLON type_ ASSIGN;
 
 array_type			: ARRAY dimension OF type_ ;
 dimension			: LSB intlist RSB ;
-intlist				: numexpr1 COMMA intlist | numexpr1 ;
+intlist				: INT_TYPE COMMA intlist | INT_TYPE ;
 id_list				: ID COMMA id_list | ID ;
 
 
