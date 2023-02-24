@@ -8,7 +8,7 @@ class ParserSuite(unittest.TestCase):
         input = 	"""
           fact: function integer (){
               do {x =2 ;}
-              while();
+              while(b[3-2 + -(1234-2)]);
               a = 1.0e10;
               a[foo(2)]=1;
               a: integer;

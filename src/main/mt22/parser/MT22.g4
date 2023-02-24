@@ -12,6 +12,7 @@ options{
 program:  prog EOF ;
 
 prog				: stmtlist prog | declaration prog | stmtlist | declaration ;
+
 stmtlist			: stmt stmtlist | stmt  ;
 stmt				: block_stmt | var_declare
 					| ( assignment | return_stmt | call_stmt | do_while_stmt | BREAK | CONTINUE ) SEMI 
@@ -31,7 +32,7 @@ exprval				: ID | INT_TYPE | FLOAT_TYPE | STRING_TYPE | indexlist | TRUE | FALSE
 					| LP expr1 RP ;
 exprlist			: expr COMMA exprlist | expr ;
 
-//num expression
+//num int expression
 numexpr1			: numexpr1 ADDOP numexpr2 | numexpr1 SUBOP numexpr2 | numexpr2; 
 numexpr2			: numexpr2 MULOP numexpr3 | numexpr2 DIVOP numexpr3 | numexpr2 MODULO numexpr3 | numexpr3 ;
 numexpr3			: '-'numexpr | numexpr | indexop ;
@@ -71,10 +72,10 @@ assignment			: (ID | indexop) ASSIGN expr;
 return_stmt			: RETURN ( expr | ) ;
 call_stmt			: ID LP argument RP ;
 argument			: ID COMMA argument | expr COMMA argument | ID | expr | ;
-if_stmt				: IF LP expr1 RP ( stmt ) ( ELSE stmt | );
-for_stmt			: FOR LP ID ASSIGN numexpr1 COMMA expr1 COMMA numexpr1 stmt ;
-while_stmt			: WHILE LP expr1 RP stmt  ;
-do_while_stmt		: DO block_stmt WHILE LP expr1 RP;
+if_stmt				: IF LP expr RP ( stmt ) ( ELSE stmt | );
+for_stmt			: FOR LP ID ASSIGN numexpr1 COMMA expr COMMA numexpr1 stmt ;
+while_stmt			: WHILE LP expr RP stmt  ;
+do_while_stmt		: DO block_stmt WHILE LP expr RP;
 block_stmt			: LCB (stmtlist |) RCB ;
 
 
