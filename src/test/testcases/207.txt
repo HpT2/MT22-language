@@ -1,4 +1,7 @@
-fact: function integer (){
-              if(true) return;
-              a = {1,2,3};
-        }
+
+        a:integer = a[1];
+          fact: function integer (out x:string){
+              {
+                  
+
+            }

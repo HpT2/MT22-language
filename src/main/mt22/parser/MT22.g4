@@ -71,32 +71,6 @@ do_while_stmt		: DO block_stmt WHILE LP expr RP;
 block_stmt			: LCB (stmtlist |) RCB ;
 
 
-/*Special function 
-special_func 		: readInt | printInt | readFloat | writeFloat | readBool | printBool | readStr | printStr  | super | preventDef ;
-readInt 			: READ_INT LP RP ;
-printInt			: PRINT_INT LP expr RP ;
-readFloat			: READ_FLOAT LP RP ;
-writeFloat			: WRITE_FLOAT LP expr RP ;
-readBool			: READ_BOOL LP RP ;
-printBool			: PRINT_BOOL LP expr RP ;
-readStr				: READ_STR LP RP ;
-printStr			: PRINT_STR LP expr RP ;
-//super				: SUPER LP exprlist RP ;
-preventDef			: PREVENT_DEF LP RP ;
-*/
-
-/*Special function key
-READ_INT			: 'readInteger' ;
-PRINT_INT			: 'printInteger' ;
-READ_FLOAT			: 'readFloat' ;
-WRITE_FLOAT			: 'writeFloat' ;
-READ_BOOL			: 'readBoolean' ;
-PRINT_BOOL			: 'printBoolean' ;
-READ_STR			: 'readString' ;
-PRINT_STR			: 'printString' ;
-//SUPER				: 'super' ;
-PREVENT_DEF			: 'preventDefault' ;
-*/
 
 //Keywords
 AUTO				: 'auto'  ;
@@ -172,8 +146,13 @@ fragment BACKSLASH 	: '\\''\\' ;
 
 WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
 
+ILLEGAL_ESCAPE		: '"'~["\n\r]*? ( '\\'~[trnbf'"\\] ) ~["\n\r]*'"'? 
+{
+if(self.text[-1:]=='"'):
+	raise IllegalEscape(self.text[1:-1])
+raise IllegalEscape(self.text[1:])
+};
+
+UNCLOSE_STRING		: '"'(~["'\n\r\\] | '\\t' | '\\r' | '\\n' | '\\b' | '\\f' | QUOTE | DBLQUOTE | BACKSLASH)* {raise UncloseString(self.text[1:])};	
+
 ERROR_CHAR			: .  {raise ErrorToken(self.text)} ;
-
-UNCLOSE_STRING		: '"' (~["\n\r])* {raise UncloseString(self.text[1:])};	
-
-ILLEGAL_ESCAPE		: '"'~["]*? ( '\\'~[trnbf'"\\] ) ~["]*'"' {raise IllegalEscape(self.text[1:-1])};

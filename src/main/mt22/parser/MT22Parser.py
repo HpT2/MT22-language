@@ -212,7 +212,7 @@ class MT22Parser ( Parser ):
                       "DBLCOL", "LP", "RP", "LSB", "RSB", "DOT", "COMMA", 
                       "SEMI", "COLON", "LCB", "RCB", "ASSIGN", "COMMENT", 
                       "LINE_COMMENT", "ID", "INT_TYPE", "FLOAT_TYPE", "STRING_TYPE", 
-                      "WS", "ERROR_CHAR", "UNCLOSE_STRING", "ILLEGAL_ESCAPE" ]
+                      "WS", "ILLEGAL_ESCAPE", "UNCLOSE_STRING", "ERROR_CHAR" ]
 
     RULE_program = 0
     RULE_prog = 1
@@ -316,9 +316,9 @@ class MT22Parser ( Parser ):
     FLOAT_TYPE=52
     STRING_TYPE=53
     WS=54
-    ERROR_CHAR=55
+    ILLEGAL_ESCAPE=55
     UNCLOSE_STRING=56
-    ILLEGAL_ESCAPE=57
+    ERROR_CHAR=57
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
