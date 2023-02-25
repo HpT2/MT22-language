@@ -27,7 +27,7 @@ expr4				: expr4 (MULOP | DIVOP | MODULO) expr5 | expr5 ;
 expr5				: LOGICNOT expr5 | expr6 ;
 expr6 				: '-'expr6 | expr7 ;
 expr7 				: indexop | exprval;
-exprval				: ID | INT_TYPE | FLOAT_TYPE | STRING_TYPE | TRUE | FALSE | call_stmt
+exprval				: ID | INT_TYPE | FLOAT_TYPE | STRING_TYPE | TRUE | FALSE | call_stmt | indexed_array
 					| LP expr1 RP ;
 exprlist			: expr COMMA exprlist | expr ;
 
