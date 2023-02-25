@@ -4,13 +4,8 @@ from TestUtils import TestParser
 
 class ParserSuite(unittest.TestCase):
     def test_simple_program(self):
-        """Simple program: int main() {} """
-        input = 	"""
-          for(i=1,true,i+2){
-            continue;
-          }
-          a["a"] = 2;
-
-         """
-        expect = "successful"
-        self.assertTrue(TestParser.test(input, expect, 201))
+        input = """fact: function integer (){
+              if(true) return;
+        }"""
+        expect = "Error on line 1 col 0: if"
+        self.assertTrue(TestParser.test(input, expect, 207))

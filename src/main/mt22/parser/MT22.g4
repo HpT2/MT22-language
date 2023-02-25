@@ -10,7 +10,7 @@ options{
 
 program:  prog EOF ;
 
-prog				: stmtlist prog | declaration prog | stmtlist | declaration ;
+prog				: declaration prog | declaration ;
 
 stmtlist			: stmt stmtlist | stmt  ;
 stmt				: block_stmt | var_declare
@@ -164,7 +164,7 @@ FLOAT_TYPE			: ( INTPART DECIMAL? EXPONENT | INTPART DECIMAL | DECIMAL EXPONENT 
 fragment INTPART 	: '0' | [1-9] ('_'? [0-9]+)*  ;
 fragment DECIMAL	: '.' [0-9]* ;
 fragment EXPONENT	: [eE] [-+]? [0-9]+ ;
-STRING_TYPE			:   '"''"' | '"'(~["'\n\r] | '\\t' | '\\r' | '\\n' | '\\b' | '\\f' | QUOTE | DBLQUOTE | BACKSLASH)*'"' {self.text=self.text[1:-1]};
+STRING_TYPE			:  ('"''"' | '"'(~["'\n\r\\] | '\\t' | '\\r' | '\\n' | '\\b' | '\\f' | QUOTE | DBLQUOTE | BACKSLASH)*'"') {self.text=self.text[1:-1]};
 fragment QUOTE 		: '\\''\u0027' ;
 fragment DBLQUOTE 	: '\\''"' ;
 fragment BACKSLASH 	: '\\''\\' ;
@@ -174,6 +174,6 @@ WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
 
 ERROR_CHAR			: .  {raise ErrorToken(self.text)} ;
 
-UNCLOSE_STRING		: '"' (~["\n\r])* {raise UncloseString(self.text)};	
+UNCLOSE_STRING		: '"' (~["\n\r])* {raise UncloseString(self.text[1:])};	
 
-ILLEGAL_ESCAPE		: '"'~["]*? ( '\n' | EOF ) ~["]*'"' {raise IllegalEscape(self.text)};
+ILLEGAL_ESCAPE		: '"'~["]*? ( '\\'~[trnbf'"\\] ) ~["]*'"' {raise IllegalEscape(self.text[1:-1])};
