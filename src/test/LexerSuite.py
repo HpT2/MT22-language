@@ -149,12 +149,12 @@ class LexerSuite(unittest.TestCase):
 
     def test27(self):
         testcase = """ "\\c 123" """
-        expect = "Illegal Escape In String: \\c 123"
+        expect = "Illegal Escape In String: \\c"
         self.assertTrue(TestLexer.test(testcase,expect,127))
 
     def test28(self):
         testcase = """ "12\\c3" """
-        expect = "Illegal Escape In String: 12\\c3"
+        expect = "Illegal Escape In String: 12\\c"
         self.assertTrue(TestLexer.test(testcase,expect,128))
 
     def test29(self):
@@ -169,7 +169,7 @@ class LexerSuite(unittest.TestCase):
 
     def test31(self):
         testcase = """ "ab\\mc" """
-        expect = "Illegal Escape In String: ab\\mc"
+        expect = "Illegal Escape In String: ab\\m"
         self.assertTrue(TestLexer.test(testcase,expect,131))
 
     def test32(self):
@@ -179,17 +179,17 @@ class LexerSuite(unittest.TestCase):
 
     def test33(self):
         testcase = """ "\\w """
-        expect = "Illegal Escape In String: \\w "
+        expect = "Illegal Escape In String: \\w"
         self.assertTrue(TestLexer.test(testcase,expect,133))
 
     def test34(self):
-        testcase = """ "ab\\  """
-        expect = "Illegal Escape In String: ab\\  "
+        testcase = """ "ab\\ """
+        expect = "Illegal Escape In String: ab\\ "
         self.assertTrue(TestLexer.test(testcase,expect,134))
 
     def test35(self):
         testcase = """ "a\\b\\t\\s\\n """
-        expect = "Illegal Escape In String: a\\b\\t\\s\\n "
+        expect = "Illegal Escape In String: a\\b\\t\\s"
         self.assertTrue(TestLexer.test(testcase,expect,135))
 
     """random test"""

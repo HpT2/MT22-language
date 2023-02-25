@@ -19,18 +19,17 @@ stmt				: block_stmt | var_declare
 
 declaration			: var_declare | func_declare ;
 
-expr 				: expr DBLCOL expr | expr1 ;
-expr1				: expr1 (EQ | NOTEQ | LESS | MORE_ | LESSOREQ | MOREOREQ) expr1 | expr2 ;
+expr 				: expr1 DBLCOL expr1  | expr1 ;
+expr1				: expr2 (EQ | NOTEQ | LESS | MORE_ | LESSOREQ | MOREOREQ) expr2 | expr2 ;
 expr2				: expr2 (OR | AND) expr3 | expr3 ;
 expr3				: expr3 (ADDOP | SUBOP) expr4 | expr4 ;
 expr4				: expr4 (MULOP | DIVOP | MODULO) expr5 | expr5 ;
 expr5				: LOGICNOT expr5 | expr6 ;
 expr6 				: '-'expr6 | expr7 ;
 expr7 				: indexop | exprval;
-exprval				: ID | INT_TYPE | FLOAT_TYPE | STRING_TYPE | TRUE | FALSE | call_stmt | indexed_array
-					| LP expr1 RP ;
+exprval				: ID  | INT_TYPE | FLOAT_TYPE | STRING_TYPE | TRUE | FALSE | call_stmt | indexed_array
+					| LP expr RP ;
 exprlist			: expr COMMA exprlist | expr ;
-
 
 
 indexop 			: ID LSB exprlist RSB ;
@@ -146,12 +145,7 @@ fragment BACKSLASH 	: '\\''\\' ;
 
 WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
 
-ILLEGAL_ESCAPE		: '"'~["\n\r]*? ( '\\'~[trnbf'"\\] ) ~["\n\r]*'"'? 
-{
-if(self.text[-1:]=='"'):
-	raise IllegalEscape(self.text[1:-1])
-raise IllegalEscape(self.text[1:])
-};
+ILLEGAL_ESCAPE		: '"'~["\n\r]*? ( '\\'~[trnbf'"\\] )  {raise IllegalEscape(self.text[1:])};
 
 UNCLOSE_STRING		: '"'(~["'\n\r\\] | '\\t' | '\\r' | '\\n' | '\\b' | '\\f' | QUOTE | DBLQUOTE | BACKSLASH)* {raise UncloseString(self.text[1:])};	
 
