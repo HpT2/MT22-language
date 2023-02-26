@@ -41,13 +41,14 @@ indexed_array 		: LCB  ( exprlist | ) RCB ;
 
 
 //Type
-type_				: INTEGER | FLOAT | STRING | BOOLEAN | AUTO | array_type;
+atomic_type			: INTEGER | FLOAT | STRING | BOOLEAN ;
+type_				: atomic_type | AUTO | array_type;
 
 //Var declaration
 var_declare			: id_list COLON type_ SEMI | ID recur expr SEMI;
 recur				: COMMA ID recur expr COMMA | COLON type_ ASSIGN;
 
-array_type			: ARRAY dimension OF type_ ;
+array_type			: ARRAY dimension OF atomic_type ;
 dimension			: LSB intlist RSB ;
 intlist				: INT_TYPE COMMA intlist | INT_TYPE ;
 id_list				: ID COMMA id_list | ID ;

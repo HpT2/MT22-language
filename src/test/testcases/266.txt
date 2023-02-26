@@ -1,7 +1,8 @@
 
-        a:integer = a[1];
-          fact: function integer (out x:string){
-              a=a[2,3];
-              b= {1,2,3};
+            /* @#$%^^&************(())*/
+            factorial: function float (n:float){
+                if (n==1) return 1;
+                return n * factorial(n-1);
+
             }
         

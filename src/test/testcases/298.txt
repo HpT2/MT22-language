@@ -1,6 +1,9 @@
 
-           main:function boolean()
-            {
-                a:integer = -(2+3);
+            main: function boolean (x:boolean){
+                {
+                    if(1) do{
+                    
+                    }while(a);
+                }
             }
         

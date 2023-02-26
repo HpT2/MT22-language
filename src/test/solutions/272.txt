@@ -1,1 +1,1 @@
-Error on line 2 col 39: integer
+Error on line 2 col 33: -

@@ -1,6 +1,3 @@
 
-           main:function boolean()
-            {
-                a:integer = ---3;
-            }
+            bool1,bool2:boolean = a[true],b[false];
         

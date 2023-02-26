@@ -1,12 +1,8 @@
 
-        a:integer = a[1];
-        return ;
-          fact: function integer (out x:string){
-              for (i = 1, i < 10, i + 1) {
-                writeInt(i);
+            program: function string(){
+                for (i = foo(goo(hoo({1,2,3}))), (x+2)==(z>=a[4]), a[{1}] + 1)
                 {
-                    ;
+                
                 }
-            }
             }  
         

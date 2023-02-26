@@ -1,7 +1,9 @@
 
-        a:integer = {foo(1,2),2};
-          fact: function integer (out x:string){
-              a=a[2,3];
-              b= {1,2,3};
+            main: function void(x:integer){
+                for(a[2]=--------goo(),-"a" == "a"::a, a[a[a[a[a[a[a[4]]]]]]] <= true){
+                    do{
+                        while(false) x = x - + 4;
+                    }while(true);
+                }
             }
         

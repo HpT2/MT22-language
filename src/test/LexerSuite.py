@@ -3,6 +3,7 @@ from TestUtils import TestLexer
 
 
 class LexerSuite(unittest.TestCase):
+
     """test ID"""
     def test1(self):
         testcase = " aBc a b2 _c1 _1 "

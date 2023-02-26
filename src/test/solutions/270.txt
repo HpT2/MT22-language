@@ -1,1 +1,1 @@
-Error on line 3 col 10: fact
+Error on line 3 col 8: <EOF>

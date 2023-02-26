@@ -1,7 +1,9 @@
 
-            main:function void()
-            {
-                a:string="aaa">=("bbb">="ccc");
-                return;
+            main: function void(){
+                for(a["ds"::cd]=goo(),"+++a" == "$a%"::1_a, _ <= true){
+                    do{
+                        
+                    }while(true);
+                }
             }
         

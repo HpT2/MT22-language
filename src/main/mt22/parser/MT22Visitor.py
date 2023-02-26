@@ -94,6 +94,11 @@ class MT22Visitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by MT22Parser#atomic_type.
+    def visitAtomic_type(self, ctx:MT22Parser.Atomic_typeContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by MT22Parser#type_.
     def visitType_(self, ctx:MT22Parser.Type_Context):
         return self.visitChildren(ctx)

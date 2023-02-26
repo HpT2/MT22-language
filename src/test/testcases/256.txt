@@ -1,7 +1,5 @@
 
-        a:integer = a[1];
-          fact: function integer (out x:string){
-              if(x==2) a=b[2,2==3];
-              if(x>3) a=2;
+            test: function integer () inherit t {
+                return true||false::"a";
             }  
         
