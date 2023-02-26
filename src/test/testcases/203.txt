@@ -1,1 +1,1 @@
-main: function void () {}
+a,b,c : string = "a","b","c","d"; 

@@ -1,13 +1,9 @@
-x: integer = 65;
-        fact: function integer (n: integer) {
-            if (n == 0) return 1;
-            
-            else return n * fact(n - 1);
-            {
-                
+
+            main: function void () {
+                x = foo(-{1,2,3});
+                while (true) {
+                    do
+                    while(false);
+                }
             }
-        }
-        inc: function void(out n: integer, delta: integer) {
-            n = n + delta;
-        }
         

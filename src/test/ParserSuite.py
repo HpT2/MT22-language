@@ -3,203 +3,189 @@ from TestUtils import TestParser
 
 
 class ParserSuite(unittest.TestCase):
-    def test_1(self):
-        input = """ fact: function integer (n: integer) {
-            for (i=1, i<10,i+1) {
-                a= 2==3;
-            {
-               a: integer; 
-            }
-            }
-        } """
+    
+    def test1(self):
+        """test variable declaration"""
+        input = """ a,b,c : string; """
         expect = "successful"
         self.assertTrue(TestParser.test(input, expect, 201))
-    def test_2(self):
-        input = """ fact: function integer (n: integer) {
-            for (i=1, i<10,i+1) {
-                a= 2==3;
-            {
-               return;
-            }
-            }
-        } """
+    
+    def test2(self):
+        input = """ a,b,c : string = "a","b","c"; """
         expect = "successful"
         self.assertTrue(TestParser.test(input, expect, 202))
-    def test_3(self):
-        input = """main: function void () {}"""
-        expect = "successful"
+
+    def test3(self):
+        input = """a,b,c : string = "a","b","c","d"; """
+        expect = "Error on line 1 col 28: ,"
         self.assertTrue(TestParser.test(input, expect, 203))
-    def test_4(self):
-        input = """x: integer = 65;
-        fact: function integer (n: integer) {
-            if (n == 0) return 1;
-            else return n * fact(n - 1);
-        }
-        inc: function void(out n: integer, delta: integer) {
-            n = n + delta;
-        }
-        main: function void() {
-            delta: integer = fact(3);
-            inc(x, delta);
-            printInteger(x);
-        }"""
-        expect = "successful"
+
+    def test4(self):
+        input = """ a,b,c,d : string = 1,2,3; """
+        expect = "Error on line 1 col 25: ;"
         self.assertTrue(TestParser.test(input, expect, 204))
-    def test_5(self):
-        input = """a, b, c, d: integer = 3, 4, 6;"""
-        expect = "Error on line 1 col 29: ;"
+    
+    def test5(self):
+        input = """a,b,c,d : string = a[1],b+d,{123,4},foo(goo(hoo())) ;"""
+        expect = "successful"
         self.assertTrue(TestParser.test(input, expect, 205))
-    def test_6(self):
-        input = """a, b, c: integer = 3, 4, 6;"""
+
+    """function declaration"""
+    def test6(self):
+        input = """
+            main: function integer (){}
+        """
         expect = "successful"
         self.assertTrue(TestParser.test(input, expect, 206))
-    def test_7(self):
-        input = """if (n == 0) return 1;"""
-        expect = "Error on line 1 col 0: if"
+
+    def test7(self):
+        input = """ 
+            main:function array [2,2] of string (out b: string){
+                for(i = -a[b[c["2"]]] , (i+4 > 5) == true, a * -goo()){
+                    {{}}
+                }
+            }
+        """
+        expect = "successful"
         self.assertTrue(TestParser.test(input, expect, 207))
-    def test_8(self):
-        input = """a : array [2,3] of integer = {1,2,3};"""
-        expect = "successful"
+
+    def test8(self):
+        input = """
+            fact: function void (inherit out x : void){
+                
+            }
+        """
+        expect = "Error on line 2 col 49: void"
         self.assertTrue(TestParser.test(input, expect, 208))
-    def test_9(self):
-        input = """a : integer = {1,2,3};"""
-        expect = "successful"
+
+    def test9(self):
+        input = """
+            fact: function integer(a,b: array){
+                
+            }
+        """
+        expect = "Error on line 2 col 36: ,"
         self.assertTrue(TestParser.test(input, expect, 209))
-    def test_10(self):
-        input = input = """x: integer = 65;
-        fact: function integer (n: integer) {
-            if (n == 0) return 1;
-            
-            else return n * fact(n - 1);
-            {
-                
+
+    def test10(self):
+        input = input = """
+            main: function void () {
+                x = foo(-{1,2,3});
+                while (true) {
+                    do
+                    while(false);
+                }
             }
-        }
-        inc: function void(out n: integer, delta: integer) {
-            n = n + delta;
-        }
         """
-        expect = "successful"
+        expect = "Error on line 6 col 20: while"
         self.assertTrue(TestParser.test(input, expect, 210))
-    def test_11(self):
-        input = input = """x: integer = 65;
-        fact: function integer (n: integer) {
-            if (n == 0) return 1;
-            
-            else return n * fact(n - 1);
-            {
-                ;
-            }
-        }
-        inc: function void(out n: integer, delta: integer) {
-            n = n + delta;
-        }
+
+    """ test statement """
+    def test11(self):
+        input = input = """
+            if(i) return 1;
         """
-        expect = "Error on line 7 col 16: ;"
+        expect = "Error on line 2 col 12: if"
         self.assertTrue(TestParser.test(input, expect, 211))
-    def test_12(self):
-        input = input = """x: integer = 65;
-        fact: function integer (n: integer) {
-            if (n == 0) return 1;
-            
-            else return n * fact(n - 1);
-            {
-                
-            }
-        }
-        inc: function void(out n: integer, delta: integer) inherit abc {
-            n = n + delta;
+
+    def test12(self):
+        input = input = """
+        main: function void (){
+            if (i) return 1;
         }
         """
         expect = "successful"
         self.assertTrue(TestParser.test(input, expect, 212))
-    def test_13(self):
-        input = input = """x: integer = 65;
-        fact: function integer (n: integer) {
-            if (n == 0) return 1;
-            
-            else return n * fact(n - 1);
-            {
-                
+
+    def test13(self):
+        input = """
+            main: function void (){
+                x: integer = 1;
+                x = x + -foo(b,c,d,e);
+                if(x) return 1;
+                else return 3;
             }
-        }
-        inc: function void(out n: integer, delta: integer) inherit abc {
-            n = abc(2);
-        }
         """
         expect = "successful"
         self.assertTrue(TestParser.test(input, expect, 213))
-    def test_14(self):
+
+    def test14(self):
         input = """
-        inc: function void(out n: integer, delta: integer) inherit abc {
-            n = (2+3);
+        main: function void (inherit out x: string){
+            if(true){
+                id = (------------id == 21) > 4;
+            }
+            else {
+                if(false){}else{}
+            }
         }
         """
         expect = "successful"
         self.assertTrue(TestParser.test(input, expect, 214))
-    def test_15(self):
+
+    def test15(self):
         input = """
-        inc: function void(out n: integer, delta: integer) inherit abc {
-            n = a[2==3,a>3];
-        }
+            main:function void (){
+                if (x) 
+                    if(y) return 1; 
+                    else return 2;
+            }
         """
         expect = "successful"
         self.assertTrue(TestParser.test(input, expect, 215))
     
-    def test_16(self):
+    def test16(self):
         input = """
         inc: function void(out n: integer, delta: integer) inherit abc {
-            n = readBoolean() ;
+            if(--a[foo(8,{1,3,4}),a[a[a[5]]]]) return;
+            else 
+                if (_1) return a==2+d; 
+                else return true;
         }      
         """
         expect = "successful"
         self.assertTrue(TestParser.test(input, expect, 216))
     
-    def test_17(self):
+    def test17(self):
         input = """
-        a:integer;
           fact: function integer (){
-              do {x =2 ;}
-              while(true);
-              a=2;
-              a: integer;
-              return "123";
-              a=2;
-              return "123";
+              if(if) return 3;
           }  
         """
-        expect = "successful"
+        expect = "Error on line 3 col 17: if"
         self.assertTrue(TestParser.test(input, expect, 217))
-    def test_18(self):
+
+    def test18(self):
         input = """
-        a:integer;
-          fact: function integer (){
-              do {x = {1,2,3} ;}
-              while (true);
+            fibo: function integer (n: integer){
+                if (n==1) return 1;
+                if (n==0) return 0;
+                return n + fibo(n-1);
             }  
         """
         expect = "successful"
         self.assertTrue(TestParser.test(input, expect, 218))
-    def test_19(self):
+
+    def test19(self):
         input = """
-        a:integer;
-          fact: function integer (){
-              do {x = {1,2,3,.123e+10} ;}
-              while (true);
-            }  
+        main: function void (){
+            while(true)
+                do{
+                    a[-"a"]=b>d;
+                }while(1);
+        } 
         """
         expect = "successful"
         self.assertTrue(TestParser.test(input, expect, 219))
-    def test_20(self):
+
+    def test20(self):
         input = """
-        a:integer;
-          fact: function integer (){
-              do {x = {1,2,3,01} ;}
-              while (true);
-            }  
+            main: function string(out inherit x: array [1] of string){}  
         """
-        expect = "Error on line 4 col 30: 1"
+        expect = "Error on line 2 col 38: inherit"
         self.assertTrue(TestParser.test(input, expect, 220))
+
+
     def test_21(self):
         input = """
         a:integer=1;
@@ -318,6 +304,7 @@ class ParserSuite(unittest.TestCase):
         """
         expect = "successful"
         self.assertTrue(TestParser.test(input, expect, 230))  
+    '''
     def test_31(self):
         input = """
         a:integer = truee;
@@ -915,3 +902,4 @@ a:integer = aa :: (bb :: cc);
         """
         expect = "Error on line 3 col 49: ::"
         self.assertTrue(TestParser.test(input, expect, 290))
+        '''

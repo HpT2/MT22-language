@@ -1,5 +1,7 @@
 
-        inc: function void(out n: integer, delta: integer) inherit abc {
-            n = a[2==3,a>3];
-        }
+            main:function void (){
+                if (x) 
+                    if(y) return 1; 
+                    else return 2;
+            }
         

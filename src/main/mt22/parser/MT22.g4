@@ -27,7 +27,7 @@ expr4				: expr4 (MULOP | DIVOP | MODULO) expr5 | expr5 ;
 expr5				: LOGICNOT expr5 | expr6 ;
 expr6 				: '-'expr6 | expr7 ;
 expr7 				: indexop | exprval;
-exprval				: ID  | INT_TYPE | FLOAT_TYPE | STRING_TYPE | TRUE | FALSE | call_stmt | indexed_array
+exprval				: ID | INT_TYPE | FLOAT_TYPE | STRING_TYPE | TRUE | FALSE | call_stmt | indexed_array
 					| LP expr RP ;
 exprlist			: expr COMMA exprlist | expr ;
 
@@ -55,7 +55,7 @@ id_list				: ID COMMA id_list | ID ;
 
 //function declarations
 function_type		: type_ | VOID ;
-param				: INHERIT? OUT? ID COLON ( type_ | ARRAY ) ;
+param				: INHERIT? OUT? ID COLON type_  ;
 param_list			: param COMMA param_list | param ;
 func_declare		: ID COLON FUNCTION function_type LP ( param_list | ) RP (INHERIT ID)? block_stmt;
 

@@ -1,3 +1,0 @@
-
-        a,b,c:array [2_1_2,3] of string; 
-        
