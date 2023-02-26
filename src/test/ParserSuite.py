@@ -4,8 +4,8 @@ from TestUtils import TestParser
 
 class ParserSuite(unittest.TestCase):
     
+     """test variable declaration"""
     def test1(self):
-        """test variable declaration"""
         input = """ a,b,c : string; """
         expect = "successful"
         self.assertTrue(TestParser.test(input, expect, 201))
