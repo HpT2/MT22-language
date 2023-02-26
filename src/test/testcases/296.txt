@@ -1,0 +1,7 @@
+
+           main:function boolean()
+            {
+                a:boolean=1==0&&0;
+                return a;
+            }
+        

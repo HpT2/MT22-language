@@ -1,7 +1,5 @@
 
-        a:integer=1;
-          fact: function integer (){
-              do {x = {1,2,3,01} ;}
-              while (true);
-            }  
+            test : function void (inherit out x : integer){
+                test1: function void(){}
+            }
         

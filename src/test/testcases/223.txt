@@ -1,8 +1,7 @@
 
-        a:integer = a[1];
-          fact: function integer (){
-              a = 1;
-              do {x = {1,2,3,1} ;}
-              while (true);
-            }  
+            a:integer = a[1];
+            b: string = {-foo(),123,"string"};
+            sum: function integer(a:integer, b:integer){
+                return (a+b);
+            } 
         

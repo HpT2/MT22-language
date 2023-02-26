@@ -1,8 +1,5 @@
 
-        a:integer;
-          fact: function integer (){
-              a = 1;
-              do {x = {1,2,3,1} ;}
-              while (true);
-            }  
+            __init__:function void(){
+                input = self = input;
+            }
         

@@ -1,9 +1,5 @@
 
-        a:integer = a[1];
-          fact: function integer (){
-              {
-                  {  
-                  }
-              }
+            True:function boolean(x:integer = true){
+                return true;
             }  
         
