@@ -1,5 +1,0 @@
-
-          fact: function integer (){
-              if(if) return 3;
-          }  
-        

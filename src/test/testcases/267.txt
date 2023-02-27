@@ -1,5 +1,0 @@
-
-            floaT: function float (){
-                return 1.;
-            }
-        

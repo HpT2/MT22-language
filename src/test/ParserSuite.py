@@ -3,8 +3,7 @@ from TestUtils import TestParser
 
 
 class ParserSuite(unittest.TestCase):
-    
-     """test variable declaration"""
+    """test variable declaration"""
     def test1(self):
         input = """ a,b,c : string; """
         expect = "successful"

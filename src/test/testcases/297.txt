@@ -1,3 +1,0 @@
-
-            bool1,bool2:boolean = a[true],b[false];
-        

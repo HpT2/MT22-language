@@ -1,5 +1,0 @@
-
-            main:function string(){
-                self.val = 1;
-            }
-        

@@ -1,3 +1,0 @@
-
-            arr:array [2,3] of auto;
-        

@@ -1,6 +1,0 @@
-
-            func:function void() {
-                a[1::2] = 1;
-                return;
-            }  
-        

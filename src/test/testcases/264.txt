@@ -1,3 +1,0 @@
-
-            hpt: string = "dep trai\n";
-        
